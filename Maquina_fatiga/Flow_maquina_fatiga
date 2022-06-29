@@ -1,0 +1,315 @@
+[
+    {
+        "id": "e040834286276476",
+        "type": "tab",
+        "label": "Maquina_fatiga",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8803500cca206c47",
+        "type": "mqtt in",
+        "z": "e040834286276476",
+        "name": "",
+        "topic": "maquina_fatiga/datos",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "aa3107cbb6f29f72",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "70dde1c633b2586a"
+            ]
+        ]
+    },
+    {
+        "id": "6d3bcb95979a80f7",
+        "type": "ui_text",
+        "z": "e040834286276476",
+        "group": "476e07a119656590",
+        "order": 1,
+        "width": "8",
+        "height": "3",
+        "name": "",
+        "label": "Carga",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 490,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "70dde1c633b2586a",
+        "type": "json",
+        "z": "e040834286276476",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "cc49d48e773bd2aa",
+                "8f2fe272328b907f",
+                "d029c683e43fa6e1",
+                "56d0eb9f58f12fc7",
+                "eb3baa562bd9e848"
+            ]
+        ]
+    },
+    {
+        "id": "cc49d48e773bd2aa",
+        "type": "function",
+        "z": "e040834286276476",
+        "name": "Carga",
+        "func": "global.set(\"carga\",parseFloat(msg.payload.carga));\nmsg.payload = msg.payload.carga; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 200,
+        "wires": [
+            [
+                "6d3bcb95979a80f7"
+            ]
+        ]
+    },
+    {
+        "id": "8f2fe272328b907f",
+        "type": "function",
+        "z": "e040834286276476",
+        "name": "Velocidad",
+        "func": "global.set(\"velocidad\",parseInt(msg.payload.velocidad));\nmsg.payload = msg.payload.velocidad;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 280,
+        "wires": [
+            [
+                "a059bd9916f33695"
+            ]
+        ]
+    },
+    {
+        "id": "a059bd9916f33695",
+        "type": "ui_text",
+        "z": "e040834286276476",
+        "group": "476e07a119656590",
+        "order": 2,
+        "width": "8",
+        "height": "3",
+        "name": "",
+        "label": "Velocidad",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 500,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "d029c683e43fa6e1",
+        "type": "function",
+        "z": "e040834286276476",
+        "name": "Número de vueltas",
+        "func": "global.set(\"no_vueltas\",parseInt(msg.payload.no_vueltas));\nmsg.payload = msg.payload.no_vueltas;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 360,
+        "wires": [
+            [
+                "643b6bb138435cf0"
+            ]
+        ]
+    },
+    {
+        "id": "643b6bb138435cf0",
+        "type": "ui_text",
+        "z": "e040834286276476",
+        "group": "476e07a119656590",
+        "order": 3,
+        "width": "8",
+        "height": "3",
+        "name": "",
+        "label": "Número de vueltas",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 530,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "56d0eb9f58f12fc7",
+        "type": "function",
+        "z": "e040834286276476",
+        "name": "Estado",
+        "func": "if (msg.payload.estado == 0){\n    msg.payload = \"En proceso\";\n}\nelse if (msg.payload.estado == 1){\n    msg.payload = \"Prueba terminada\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 440,
+        "wires": [
+            [
+                "341168d214b69eea"
+            ]
+        ]
+    },
+    {
+        "id": "341168d214b69eea",
+        "type": "ui_text",
+        "z": "e040834286276476",
+        "group": "476e07a119656590",
+        "order": 3,
+        "width": "8",
+        "height": "3",
+        "name": "",
+        "label": "Estado del experimento",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 570,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "94956937056768d0",
+        "type": "ui_template",
+        "z": "e040834286276476",
+        "group": "25ebfaf0e4d26aa0",
+        "name": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<div>\n    <img src = http://192.168.0.43:8081 width = \"800\" height = \"600\" >\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 470,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3cb1d6135c3a735a",
+        "type": "mysql",
+        "z": "e040834286276476",
+        "mydb": "5985bd1225719007",
+        "name": "Base de datos",
+        "x": 900,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "eb3baa562bd9e848",
+        "type": "function",
+        "z": "e040834286276476",
+        "name": "",
+        "func": "if (msg.payload.estado == 0){\n    msg.topic=\"INSERT INTO pruebas (carga,velocidad,no_vueltas) VALUES ('\"+global.get(\"carga\")+\"','\"+global.get(\"velocidad\")+\"','\"+global.get(\"no_vueltas\")+\"')\";\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 240,
+        "wires": [
+            [
+                "3cb1d6135c3a735a"
+            ]
+        ]
+    },
+    {
+        "id": "aa3107cbb6f29f72",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "192.168.43.111",
+        "port": "1883",
+        "clientid": "mimaquinavirtual",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "476e07a119656590",
+        "type": "ui_group",
+        "name": "Datos de la Prueba",
+        "tab": "1bb52e0e8b545740",
+        "order": 3,
+        "disp": true,
+        "width": "8",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "25ebfaf0e4d26aa0",
+        "type": "ui_group",
+        "name": "c920",
+        "tab": "1bb52e0e8b545740",
+        "order": 2,
+        "disp": true,
+        "width": "20",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5985bd1225719007",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "192.168.0.43",
+        "port": "3306",
+        "db": "maquina_fatiga",
+        "tz": "-07:00",
+        "charset": "UTF8",
+        "credentials": {}
+    },
+    {
+        "id": "1bb52e0e8b545740",
+        "type": "ui_tab",
+        "name": "Máquina de fatiga",
+        "icon": "dashboard",
+        "order": 6,
+        "disabled": false,
+        "hidden": false
+    }
+]

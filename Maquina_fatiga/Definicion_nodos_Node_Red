@@ -1,0 +1,65 @@
+##  NODE - RED  
+##  Definiciones de nodos para el flow de la máquina de fatiga
+
+
+## En la terminal.
+
+La base de datos se creó en la terminal.
+> sudo mysql
+mysql> CREATE DATABASE maquina_fatiga;
+mysql> use maquina_fatiga;
+mysql> CREATE TABLE pruebas (id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP, carga FLOAT(3,2) NOT NULL, velocidad INT(1) UNSIGNED NOT NULL, no_vueltas INT(1) UNSIGNED NOT NULL);
+
+## En node-red
+
+# Nodo mqtt in  "carga"
+servidor: 192.168.0.43     # la ip de mi maquina virtual
+puerto: 1883
+client ID: mimaquinavirtual
+Topic: maq_fatiga/datos/carga
+QoS: 2
+
+# Nodo function  "carga"
+global.set("carga",parseFloat(msg.payload));
+return msg;
+
+# Nodo mqtt in  "velocidad"
+servidor: 192.168.0.43     # la ip de mi maquina virtual
+puerto: 1883
+client ID: mimaquinavirtual
+Topic: maq_fatiga/datos/velocidad
+QoS: 2
+
+# Nodo function  "velocidad"
+global.set("velocidad",parseInt(msg.payload));
+return msg;
+
+
+# Nodo mqtt in  "no_vueltas"
+servidor: 192.168.0.43     # la ip de mi maquina virtual
+puerto: 1883
+client ID: mimaquinavirtual
+Topic: maq_fatiga/datos/no_vueltas
+QoS: 2
+
+# Nodo function  "no_vueltas"
+global.set("no_vueltas",parseInt(msg.payload));
+return msg;
+
+
+# Función para introducir datos en una tabla de base de datos
+# Nodo function
+
+msg.topic="INSERT INTO pruebas (carga,velocidad,no_vueltas) VALUES ('"+global.get("carga")+"','"+global.get("velocidad")+"','"+global.get("no_vueltas")+"')";
+return msg;
+
+# Definición de la base de datos
+# nodo Base de datos
+servidor: 192.168.0.43     # la ip de mi maquina virtual
+puerto: 1883
+User: jesus-VirtualBox 	# Mi usuario para mi base de datos
+password:
+Base de datos: maquina_fatiga
+
+
+
